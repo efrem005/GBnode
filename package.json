@@ -1,12 +1,18 @@
 {
   "name": "geekbrainsnode",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "node,colors,nodemon",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lesson1": "node ./src/lesson_1/app.js \"2\" \"20\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": ["node","nodemon"],
+  "author": "nikolay efremov",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
 }
