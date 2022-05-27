@@ -1,12 +1,14 @@
 {
   "name": "geekbrainsnode",
-  "version": "1.0.0",
-  "description": "node,colors,nodemon",
-  "main": "app.js",
+  "version": "1.2.0",
+  "description": "node,colors,nodemon,event",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "lesson1": "node ./src/lesson_1/app.js \"2\" \"20\""
+    "lesson1": "node ./src/lesson_1/app.js \"2\" \"20\"",
+    "lesson2": "node ./src/lesson_2/index.js \"14:10-01-06-2022\""
   },
-  "keywords": ["node","nodemon"],
+  "keywords": ["node","nodemon","event"],
   "author": "nikolay efremov",
   "license": "ISC",
   "dependencies": {
