@@ -12,3 +12,6 @@ ___
 #### дату можно поменять в package.json
 #### или ввести в terminal: ```node ./src/lesson_2/index.js 14:10-01-06-2022```
 ___
+## Урок №3
+### ```npm run lesson3```
+___
