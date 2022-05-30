@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "lesson1": "node ./src/lesson_1/app.js \"2\" \"20\"",
-    "lesson2": "node ./src/lesson_2/index.js \"14:10-01-06-2022\""
+    "lesson2": "node ./src/lesson_2/index.js \"14:10-01-06-2022\"",
+    "lesson3": "node ./src/lesson_3/index.js"
   },
   "keywords": ["node","nodemon","event"],
   "author": "nikolay efremov",
