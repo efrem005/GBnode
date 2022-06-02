@@ -7,13 +7,23 @@
   "scripts": {
     "lesson1": "node ./src/lesson_1/app.js \"2\" \"20\"",
     "lesson2": "node ./src/lesson_2/index.js \"14:10-01-06-2022\"",
-    "lesson3": "node ./src/lesson_3/index.js"
+    "lesson3": "node ./src/lesson_3/index.js",
+    "lesson4": "node ./src/lesson_4/index.js"
   },
-  "keywords": ["node","nodemon","event"],
+  "bin": {
+    "lesson4": "./src/lesson_4/index.js"
+  },
+  "keywords": [
+    "node",
+    "nodemon",
+    "event"
+  ],
   "author": "nikolay efremov",
   "license": "ISC",
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "inquirer": "^8.2.4",
+    "yargs": "^17.5.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
