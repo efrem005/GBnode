@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chat on Socket</title>
+    <script
+      src="https://cdn.socket.io/4.2.0/socket.io.min.js"
+      integrity="sha384-PiBR5S00EtOj2Lto9Uu81cmoyZqR57XcOna1oAuVuIEjzj0wpqDVfD0JA9eXlRsj"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <div style="margin: 20px">Посишений: <span id="count">0</span></div>
+      <div style="margin: 20px">Сейчас в чате: <span id="user">0</span></div>
+      <div style="margin: 20px">
+        <input id="input" type="text" autofocus />
+        <button id="button">Send</button>
+      </div>
+      <div style="margin: 0 auto; width: 30%" id="messages"></div>
+    </div>
+    <script>
+      const socket = io("192.168.1.15:3000");
+      const messageBlock = document.querySelector("#messages");
+      const button = document.querySelector("#button");
+      const input = document.querySelector("#input");
+      const count = document.querySelector("#count");
+      const user = document.querySelector("#user");
+
+      button.addEventListener("click", () => {
+        const data = {
+          message: input.value,
+        };
+
+        socket.emit("newMessage", data);
+      });
+
+      socket.on("connect", () => {
+        console.log("Connected to chat!");
+      });
+
+      socket.on("data", (data) => {
+        console.log(data)
+        count.innerText = data.count
+        user.innerText = data.user
+      })
+
+      socket.on("newMessage", (data) => {
+        input.value = "";
+        messageBlock.insertAdjacentHTML(
+          "beforeend",
+          `<div style="margin-bottom: 10px; padding: 5px 10px; background-color: #CCC; border-radius: 10px; ">${data.message}</div>`
+        );
+      });
+    </script>
+  </body>
+</html>
