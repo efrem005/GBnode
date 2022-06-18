@@ -8,49 +8,54 @@ const __dirname = dirname(__filename);
 
 
 
-const genHTMLBody = (url, dir) => {
-    let list = fs.readdirSync(dir)
-    let dirUrl = url === "/"?"":"." +url+"/";
+const genHTMLBody = async (dir, path) => {
+    const dirName = dir === "/" ? "" : dir + "/";
+    const list = await readdir(path);
     const listContent = `
                   ${list
-        .map((item, idx) => `<div style="padding: 10px"><a style="font-size: 18px; padding: 5px 15px; background-color: #CCC; border-radius: 10px; color: black;" href="${dirUrl}${item}">${item}</a></div>`)
+        .map((item, idx) => `<div style="padding: 10px"><a style="font-size: 18px; padding: 5px 15px; background-color: #CCC; border-radius: 10px; color: black;" href="${dirName}${item}">${item}</a></div>`)
         .join("\n")}
             `;
 
     return  HTML.replace("{{body}}", listContent);
-
 };
+
+const promisifyFs =
+    (method, error, callback = (data) => data) =>
+        (path) =>
+            new Promise((resolve, reject) => {
+                fs[method](path, (err, data) => {
+                    if (err) {
+                        return reject(error);
+                    }
+                    resolve(callback(data));
+                });
+            });
+
+const readFile = promisifyFs("readFile", "Error when read file");
+const readdir = promisifyFs("readdir", "Error when read dir");
+const isFile = promisifyFs("lstat", "Error when read dir or file", (stats) =>
+    stats.isFile()
+);
 
 const HTML = fs.readFileSync("src/lesson_5/public/index.html", "utf-8");
 
 const server = http.createServer(async (req, res) => {
 
     if (req.method === "GET") {
-        const itemPath = path.join(__dirname, req.url);
+
         if (req.url === "/") {
-            return res.end(genHTMLBody(req.url, itemPath))
+            return res.end(await genHTMLBody('', __dirname))
         }
 
-        const lstat = fs.lstatSync(itemPath, (data, err) => {
-                if(err) {
-                    res.writeHead(400, "error lstat")
-                    return res.end()
-                }
-                return res.end(data)
-        })
+        const getPath = path.join(__dirname, req.url)
+        const getIsFile = await isFile(getPath)
 
-        if (lstat.isFile()) {
-            const data = fs.readFileSync(itemPath, (err, data) => {
-                if (err) {
-                    res.writeHead(400, "error isFile")
-                    return res.end()
-                }
-                return res.end(data)
-            })
-            return res.end(data);
+        if (getIsFile) {
+            return res.end(await readFile(getPath));
         }
 
-        return res.end(genHTMLBody(req.url, itemPath))
+        return res.end(await genHTMLBody(req.url, getPath))
     }
 })
 
